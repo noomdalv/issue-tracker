@@ -27,6 +27,24 @@ const NewIssuePage = () => {
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      setIsSubmitting(true);
+      const response = await fetch("/api/issues", {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData);
+      }
+      router.push("/issues");
+    } catch (error) {
+      setIsSubmitting(false);
+      setError("An unexpected error occurred");
+    }
+  });
+
   return (
     <div className="max-w-xl">
       {error && (
@@ -34,26 +52,7 @@ const NewIssuePage = () => {
           <Callout.Text color="red">{error}</Callout.Text>
         </Callout.Root>
       )}
-      <form
-        className="space-y-3"
-        onSubmit={handleSubmit(async (data) => {
-          try {
-            setIsSubmitting(true);
-            const response = await fetch("/api/issues", {
-              method: "POST",
-              body: JSON.stringify(data),
-            });
-            if (!response.ok) {
-              const errorData = await response.json();
-              throw new Error(errorData);
-            }
-            router.push("/issues");
-          } catch (error) {
-            setIsSubmitting(false);
-            setError("An unexpected error occurred");
-          }
-        })}
-      >
+      <form className="space-y-3" onSubmit={onSubmit}>
         <TextField.Root>
           <TextField.Input
             {...register("title", { required: true })}
