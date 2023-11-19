@@ -44,4 +44,10 @@ const IssuesPage = async () => {
   );
 };
 
+// No server cache
+export const dynamic = "force-dynamic";
+
+// Cache refresh each 60 seconds
+// export const revalidate = 60
+
 export default IssuesPage;
