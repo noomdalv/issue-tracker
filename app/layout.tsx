@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} font-sans`}>
-        <Theme panelBackground="solid" radius="small">
+        <Theme panelBackground="solid" radius="large">
           <NavBar />
           <main className="p-5">{children}</main>
         </Theme>
