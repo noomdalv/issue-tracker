@@ -17,7 +17,7 @@ const IssueDetailsPage = async ({ params }: { params: { id: string } }) => {
 
   return (
     <Grid columns={{ initial: "1", sm: "5" }} gap={"5"}>
-      {/* radix-ui size "sm" is equivalent to tailwind size "md" */}
+      {/* radix-ui size "sm" is equivalent to tailwind size "md"  */}
       <Box className="md:col-span-4 ">
         <IssueDetails issue={issue} />
       </Box>
