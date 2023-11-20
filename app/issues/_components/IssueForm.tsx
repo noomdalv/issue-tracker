@@ -30,7 +30,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
     try {
       setIsSubmitting(true);
       const response = issue
-        ? await fetch(`/api/issues/${issue.id}/edit`, {
+        ? await fetch(`/api/issues/${issue.id}`, {
             method: "PATCH",
             body: JSON.stringify(data),
           })
@@ -43,7 +43,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
         const errorData = await response.json();
         throw new Error(errorData);
       }
-      router.push("/issues");
+      router.push("/issues/list");
       router.refresh();
     } catch (error) {
       setIsSubmitting(false);

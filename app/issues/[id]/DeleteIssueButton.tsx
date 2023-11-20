@@ -17,7 +17,7 @@ const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
       await fetch(`/api/issues/${issueId}`, {
         method: "DELETE",
       });
-      router.push("/issues");
+      router.push("/issues/list");
       router.refresh();
     } catch (error) {
       setIsDeleting(false);
