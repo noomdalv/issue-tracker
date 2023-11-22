@@ -3,20 +3,23 @@
 import { User } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
 import { useQuery } from "@tanstack/react-query";
+import Skeleton from "@/app/components/Skeleton";
 
 const AsigneeSelect = () => {
   const usersQuery = () =>
     useQuery<User[]>({
       queryKey: ["users"],
       queryFn: async () =>
-        fetch("http://localhost:3000/api/users").then(
+        await fetch("http://localhost:3000/api/users").then(
           async (res) => await res.json()
         ),
+      staleTime: 1000 * 60 * 5,
+      retry: 3,
     });
 
   const { data, error, isLoading } = usersQuery();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Skeleton />;
 
   if (error) return <div>Error: {error.message}</div>;
 
