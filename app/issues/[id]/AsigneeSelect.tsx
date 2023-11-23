@@ -1,11 +1,11 @@
 "use client";
 
-import { User } from "@prisma/client";
+import { Issue, User } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
 import { useQuery } from "@tanstack/react-query";
 import Skeleton from "@/app/components/Skeleton";
 
-const AsigneeSelect = () => {
+const AsigneeSelect = ({ issue }: { issue: Issue }) => {
   const usersQuery = () =>
     useQuery<User[]>({
       queryKey: ["users"],
@@ -24,11 +24,21 @@ const AsigneeSelect = () => {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <Select.Root>
+    <Select.Root
+      defaultValue={issue.assignedUserId || ""}
+      onValueChange={async (userId) => {
+        const assignedUserId = userId === "unassigned" ? null : userId;
+        await fetch(`/api/issues/${issue.id}`, {
+          method: "PATCH",
+          body: JSON.stringify({ assignedUserId }),
+        });
+      }}
+    >
       <Select.Trigger placeholder="Assign a User" />
       <Select.Content>
         <Select.Group>
           <Select.Label>Suggestions</Select.Label>
+          <Select.Item value="unassigned">Unassigned</Select.Item>
           {data!.map((user) => (
             <Select.Item key={user.id} value={user.id}>
               {user.name}
