@@ -1,45 +1,36 @@
 "use client";
 
+import Skeleton from "@/app/components/Skeleton";
 import { Issue, User } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
 import { useQuery } from "@tanstack/react-query";
-import Skeleton from "@/app/components/Skeleton";
 import toast, { Toaster } from "react-hot-toast";
 
 const AsigneeSelect = ({ issue }: { issue: Issue }) => {
-  const usersQuery = () =>
-    useQuery<User[]>({
-      queryKey: ["users"],
-      queryFn: async () =>
-        await fetch("http://localhost:3000/api/users").then(
-          async (res) => await res.json()
-        ),
-      staleTime: 1000 * 60 * 5,
-      retry: 3,
-    });
-
-  const { data, error, isLoading } = usersQuery();
+  const { data, error, isLoading } = useUsersQuery();
 
   if (isLoading) return <Skeleton />;
 
   if (error) return <div>Error: {error.message}</div>;
 
+  const assignIssue = async (userId: string) => {
+    const assignedUserId = userId === "unassigned" ? null : userId;
+    try {
+      const response = await fetch(`/api/issues/${issue.id}`, {
+        method: "PATCH",
+        body: JSON.stringify({ assignedUserId }),
+      });
+      if (!response.ok) throw new Error();
+    } catch (error) {
+      toast.error("Could not update issue");
+    }
+  };
+
   return (
     <>
       <Select.Root
         defaultValue={issue.assignedUserId || ""}
-        onValueChange={async (userId) => {
-          const assignedUserId = userId === "unassigned" ? null : userId;
-          try {
-            const response = await fetch(`/api/issues/${issue.id}`, {
-              method: "PATCH",
-              body: JSON.stringify({ assignedUserId }),
-            });
-            if (!response.ok) throw new Error();
-          } catch (error) {
-            toast.error("Could not update issue");
-          }
-        }}
+        onValueChange={assignIssue}
       >
         <Select.Trigger placeholder="Assign a User" />
         <Select.Content>
@@ -66,5 +57,16 @@ const AsigneeSelect = ({ issue }: { issue: Issue }) => {
     </>
   );
 };
+
+const useUsersQuery = () =>
+  useQuery<User[]>({
+    queryKey: ["users"],
+    queryFn: async () =>
+      await fetch("http://localhost:3000/api/users").then(
+        async (res) => await res.json()
+      ),
+    staleTime: 1000 * 60 * 60 * 24,
+    retry: 3,
+  });
 
 export default AsigneeSelect;
