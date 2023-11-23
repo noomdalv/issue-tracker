@@ -27,3 +27,7 @@ button {
     @apply text-zinc-500 hover:text-zinc-800 transition-colors;
   }
 }
+
+.selectContent {
+  width: var(--radix-select-trigger-width);
+}
