@@ -1,10 +1,6 @@
 import { Flex, Text, Button } from "@radix-ui/themes";
+import Pagination from "./components/Pagination";
 
 export default function MyApp() {
-  return (
-    <Flex direction="column" gap="2">
-      <Text>{"Hello from Radix Themes :)"}</Text>
-      <Button>{"Let's go"}</Button>
-    </Flex>
-  );
+  return <Pagination itemCount={100} pageSize={10} currentPage={5} />;
 }
