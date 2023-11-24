@@ -26,17 +26,10 @@ const IssueFilterComponent = () => {
   const searchParams = useSearchParams();
 
   const filterByStatus = (status: Status | "ALL") => {
-    // Alternative way to build query string
-
-    // const params = new URLSearchParams();
-    // params.append("status", status);
-    // params.append("orderBy", searchParams.get("orderBy") || "");
-    // const query = params.size ? `?${params.toString()}` : "";
-
-    const orderBy = searchParams.get("orderBy");
-
-    let query = status == "ALL" ? "" : `?status=${status}`;
-    query += orderBy ? `&orderBy=${orderBy}` : "";
+    const params = new URLSearchParams();
+    params.append("status", status);
+    params.append("orderBy", searchParams.get("orderBy") || "");
+    const query = params.size ? `?${params.toString()}` : "";
 
     router.push(`/issues/list${query}`);
   };
