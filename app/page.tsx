@@ -2,6 +2,7 @@ import prisma from "@/prisma/client";
 import Pagination from "./components/Pagination";
 import IssueSummary from "./IssueSummary";
 import LatestIssues from "./LatestIssues";
+import IssueChart from "./IssueChart";
 
 export default async function MyApp() {
   const issueCounts = {
@@ -14,8 +15,9 @@ export default async function MyApp() {
 
   return (
     <div>
-      <IssueSummary {...issueCounts} />
-      {/* <LatestIssues /> */}
+      <IssueChart {...issueCounts} />
+      {/* <IssueSummary {...issueCounts} /> */}
+      <LatestIssues />
       <Pagination itemCount={100} pageSize={10} currentPage={5} />
     </div>
   );
