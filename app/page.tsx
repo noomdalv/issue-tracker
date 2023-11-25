@@ -3,6 +3,7 @@ import Pagination from "./components/Pagination";
 import IssueSummary from "./IssueSummary";
 import LatestIssues from "./LatestIssues";
 import IssueChart from "./IssueChart";
+import { Flex, Grid } from "@radix-ui/themes";
 
 export default async function MyApp() {
   const issueCounts = {
@@ -14,11 +15,13 @@ export default async function MyApp() {
   };
 
   return (
-    <div>
-      <IssueChart {...issueCounts} />
-      {/* <IssueSummary {...issueCounts} /> */}
+    <Grid columns={{ initial: "1", md: "2" }} gap={"5"}>
+      <Flex direction={"column"} gap={"5"}>
+        <IssueSummary {...issueCounts} />
+        <IssueChart {...issueCounts} />
+      </Flex>
+
       <LatestIssues />
-      <Pagination itemCount={100} pageSize={10} currentPage={5} />
-    </div>
+    </Grid>
   );
 }
