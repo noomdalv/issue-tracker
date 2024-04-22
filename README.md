@@ -1,4 +1,19 @@
+# Issue Tracker
+
+This app allow users to create and assign issues(tickets) to others.
+
+Features:
+
+- Local backend mysql server
+- Prisma client
+- Next Auth with Google Provider
+- CRUD model with filtering / pagination
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+![screenshot](./public/capture1.png)
+![screenshot](./public/capture2.png)
+![screenshot](./public/capture3.png)
 
 ## Getting Started
 
@@ -33,4 +48,6 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Check out the [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+Special mention to @Mosh Hamedani and his next.js course which this project was based from.
